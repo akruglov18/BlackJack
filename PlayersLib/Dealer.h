@@ -2,11 +2,11 @@
 #define DEALER_H
 
 #include <Players.h>
-#include <Deck.h>
+#include <CardShoe.h>
 
 class Dealer : Players {
 public:
-  Card giveCard(Deck& _deck);
+  Card giveCard(CardShoe& _deck);
   //void buildDeck();
 };
 

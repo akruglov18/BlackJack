@@ -1,12 +1,13 @@
-#ifndef REV_H
-#define REV_H
+#include"Dealer.h"
+#include"Player.h"
+#include"Deck.h"
+#include<vector>
 
-#include<string>
-
-using namespace std;
-
-void myReverse(string& str) {
-  for (int i = 0; i < str.size() / 2; i++)
-    swap(str[i], str[str.size() - i - 1]);
-}
-#endif
+class Game {
+private:
+  Dealer dealer;
+  std::vector<Player> players;
+  CardShoe deck;
+public:
+  Game(int countPlayers);
+};

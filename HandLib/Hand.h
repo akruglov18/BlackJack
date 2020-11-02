@@ -4,11 +4,9 @@
 #include "Card.h"
 #include <vector>
 
-using namespace std;
-
 class Hand {
 private:
-  vector<Card> cards;
+  std::vector<Card> cards;
 public:
   Hand();
   Hand(const Hand& hand);
