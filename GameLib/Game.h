@@ -1,13 +1,18 @@
 #include"Dealer.h"
 #include"Player.h"
-#include"Deck.h"
+#include"CardShoe.h"
 #include<vector>
 
 class Game {
 private:
   Dealer dealer;
-  std::vector<Player> players;
-  CardShoe deck;
+  std::vector<Players*> players;
+  CardShoe cardShoe;
 public:
-  Game(int countPlayers);
+  Game(int deckCount = 4);
+
+  void addPlayer(Players* player);
+  CardShoe& getCardShoe();
+
+  void PlayGame();
 };

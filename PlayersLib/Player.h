@@ -3,7 +3,11 @@
 
 #include "Players.h"
 
-class Player : Players {
+class Player : public Players {
+public:
+  Player();
+  Player(const Player& player);
+
 };
 
 #endif

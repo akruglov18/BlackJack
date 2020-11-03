@@ -13,6 +13,9 @@ public:
   int getValue();
   bool isOverflowed();
   void addCard(const Card& card);
+  void clear();
+  void openCard(int number);
+  std::string toString();
 
   Hand& operator=(const Hand& hand);
 };

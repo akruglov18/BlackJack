@@ -19,8 +19,6 @@ int Hand::getValue()
     if (cards[i].getType() == Ace)
       aceCount++;
   }
-  if (cards.size() == 2 && aceCount == 2)
-    return 21;
   for (int i = 0; i < aceCount; i++) // aces may have the value 1 or 11
     if (res > 21)
       res -= 10;
@@ -37,6 +35,29 @@ bool Hand::isOverflowed()
 void Hand::addCard(const Card& card)
 {
   this->cards.push_back(card);
+}
+
+void Hand::clear()
+{
+  this->cards.clear();
+}
+
+void Hand::openCard(int number)
+{
+  if (number >= 0 && number < this->cards.size())
+    this->cards[number].open();
+  else
+    throw std::exception("Number of card out of hand size");
+}
+
+std::string Hand::toString()
+{
+  std::string res;
+  for (int i = 0; i < cards.size(); i++)
+  {
+    res += (cards[i].toString() + " ");
+  }
+  return res;
 }
 
 Hand& Hand::operator=(const Hand& hand)

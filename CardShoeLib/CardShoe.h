@@ -4,20 +4,25 @@
 #include "Card.h"
 #include <vector>
 
+enum Visible : bool{
+  Hide=false, Open = true
+};
+
 class CardShoe {
 private:
-  std::vector<Card> decks;
+  std::vector<Card> shoe;
   int deckCount;
 public:
   CardShoe(int _deckCount=1);
-  CardShoe(const CardShoe& _deck);
+  CardShoe(const CardShoe& _CardShoe);
 
   void randomShuffle();
   void rebuild();
   int getSize();
-  Card getCard();
+  Card getCard(bool toOpen);
 
-  CardShoe& operator=(const CardShoe& _deck);
+  CardShoe& operator=(const CardShoe& _CardShoe);
+
 };
 
 #endif

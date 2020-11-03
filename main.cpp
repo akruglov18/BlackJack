@@ -1,7 +1,11 @@
 #include <iostream>
+#include"Game.h"
+#include"HumanPlayer.h"
 
 using namespace std;
 
 int main(){
-	return 0;
+  Game table(4);
+  table.addPlayer(new HumanPlayer());
+  table.PlayGame();
 }

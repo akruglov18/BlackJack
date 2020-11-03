@@ -1,11 +1,11 @@
 #include "Players.h"
+#include "Player.h"
 
-bool Players::isBusted()
+Player::Player()
 {
-  return this->hand.isOverflowed();
 }
 
-void Players::takeCard(const Card& card)
+Player::Player(const Player& player)
 {
-  this->hand.addCard(card);
+  this->hand = player.hand;
 }
