@@ -1,9 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Players.h"
+#include "IPlayer.h"
 
-class Player : public Players {
+class Player : public IPlayer {
 public:
   Player();
   Player(const Player& player);

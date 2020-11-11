@@ -1,4 +1,4 @@
-#include "Players.h"
+#include "IPlayer.h"
 #include "Player.h"
 
 Player::Player()

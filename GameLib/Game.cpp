@@ -5,7 +5,7 @@ Game::Game(int deckCount)
   this->cardShoe = *(new CardShoe(deckCount));
 }
 
-void Game::addPlayer(Players* player)
+void Game::addPlayer(IPlayer* player)
 {
   players.push_back(player);
 }
@@ -22,6 +22,5 @@ void Game::PlayGame()
   while (true)
   {
     dealer.playRound(cardShoe, players);
-    system("cls");
   }
 }

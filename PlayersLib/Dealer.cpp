@@ -1,18 +1,5 @@
 #include "Dealer.h"
 
-void waiting()
-{
-  std::cout << "Enter any key";
-  getchar();
-}
-
-void Dealer::showAllHands(std::vector<Players*> players)
-{
-  for (int i = 0; i < players.size(); i++)
-    std::cout << players[i]->getHand().toString() << std::endl;
-  std::cout << this->getHand().toString() << std::endl;
-}
-
 Dealer::Dealer(const Dealer& dealer)
 {
   this->hand = dealer.hand;
@@ -23,7 +10,7 @@ Card Dealer::giveCard(CardShoe& _CardShoe, bool toOpen)
   return _CardShoe.getCard(toOpen);
 }
 
-void Dealer::clearPlayersHands(std::vector<Players*> players)
+void Dealer::clearPlayersHands(std::vector<IPlayer*> players)
 {
   this->clearHand();
   for (int i = 0; i < players.size(); i++)
@@ -36,7 +23,7 @@ void Dealer::shuffleCardShoe(CardShoe& _CardShoe)
   _CardShoe.randomShuffle();
 }
 
-void Dealer::dealCards(CardShoe& _CardShoe, std::vector<Players*> players)
+void Dealer::dealCards(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 {
   //cards to player
   for (int i = 0; i < 2; i++)
@@ -54,7 +41,6 @@ void Dealer::dealCards(CardShoe& _CardShoe, std::vector<Players*> players)
     else
       this->takeCard(this->giveCard(_CardShoe, Visible::Hide));
   }
-  this->showAllHands(players);
 }
 
 void Dealer::openSecondCard()
@@ -62,61 +48,34 @@ void Dealer::openSecondCard()
   this->hand.openCard(1);
 }
 
-void Dealer::playRound(CardShoe& _CardShoe, std::vector<Players*> players)
+void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 {
+  //start round
   this->dealCards(_CardShoe, players);
 
   for (int i = 0; i < players.size(); i++) // all players turn
   {
-    Players* player = players[i];
-    while (!player->isBusted() && player->getHandValue() != 21)
-    {
-      PlayerDecision decision = player->getPlayerDecision();
-      if (decision == PlayerDecision::Stand)
-        break;
-      if (decision == PlayerDecision::Hit)
-      {
-        player->takeCard(this->giveCard(_CardShoe, Visible::Open));
-        system("cls");
-        this->showAllHands(players);
-      }
-    }
+    players[i]->makeTurn(_CardShoe, *this);
   }
 
   //show dealer hidden card
   this->openSecondCard();
-  system("cls");
-  this->showAllHands(players);
 
   // dealers turn
-  while (!this->isBusted() && this->getHandValue() != 21)
-  {
-    PlayerDecision dealerDecision = this->getPlayerDecision();
-    if (dealerDecision == PlayerDecision::Stand)
-      break;
-    if (dealerDecision == PlayerDecision::Hit)
-    {
-      this->takeCard(this->giveCard(_CardShoe, Visible::Open));
-      system("cls");
-      this->showAllHands(players);
-    }
-  }
-
-  waiting();
+  this->makeTurn(_CardShoe, *this);
+  //waiting();
 
   // results of round
-
   int DealerSum = this->getHandValue();
   bool isDealerBusted = this->isBusted();
 
   for (int i = 0; i < players.size(); i++)
   {
-    Players* player = players[i];
+    IPlayer* player = players[i];
     int PlayerSum = player->getHandValue();
     bool isPlayerBusted = player->isBusted();
 
     GameResult res;
-
     if (isPlayerBusted)
       res = GameResult::Lose;
     else if (isDealerBusted || PlayerSum > DealerSum)
@@ -127,20 +86,17 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<Players*> players)
       res = GameResult::Push;
 
     std::cout<<player[i].makeGameResult(res)<<std::endl;
-
-    waiting();
+    //waiting();
   }
-
-
   this->clearPlayersHands(players);
 }
 
-PlayerDecision Dealer::getPlayerDecision()
+void Dealer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
 {
-  if (this->hand.getValue() < 17)
-    return PlayerDecision::Hit;
-  else
-    return PlayerDecision::Stand;
+  while (this->getHand().getValue() <= 17)
+  {
+    this->takeCard(this->giveCard(cardShoe, Visible::Open));
+  }
 }
 
 Dealer& Dealer::operator=(const Dealer& dealer)

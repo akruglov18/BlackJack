@@ -6,12 +6,12 @@
 class Game {
 private:
   Dealer dealer;
-  std::vector<Players*> players;
+  std::vector<IPlayer*> players;
   CardShoe cardShoe;
 public:
   Game(int deckCount = 4);
 
-  void addPlayer(Players* player);
+  void addPlayer(IPlayer* player);
   CardShoe& getCardShoe();
 
   void PlayGame();

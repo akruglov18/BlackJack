@@ -1,13 +1,14 @@
 #ifndef HUMAN_PLAYER_H
 #define HUMAN_PLAYER_H
 
-#include "Players.h"
+#include "IPlayer.h"
 #include <iostream>
 #include <string>
+#include <Dealer.h>
 
-class HumanPlayer : public Players {
+class HumanPlayer : public IPlayer {
 public:
-  PlayerDecision getPlayerDecision() override;
+  void makeTurn(CardShoe& cardShoe, Dealer& dealer) override;
 
 };
 #endif // ! HUMAN_PLAYER_H

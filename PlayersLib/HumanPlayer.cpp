@@ -1,17 +1,16 @@
 #include "HumanPlayer.h"
+#include "EventHandler.h"
 
-PlayerDecision HumanPlayer::getPlayerDecision()
+void HumanPlayer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
 {
-  while (true) 
+  while(!this->isBusted() && this->getHandValue() != 21)
   {
-    std::cout << "Make a decision: hit or stand "<<std::endl;
-    std::string decision;
-    std::getline(std::cin, decision);
-    if (decision == "stand")
-      return PlayerDecision::Stand;
-    else if (decision == "hit")
-      return PlayerDecision::Hit;
-    else
-      std::cout << "Incorrect word"<<std::endl;
+    PlayerDecision decision = EventHandler::playerChoice();
+    if (decision == PlayerDecision::Stand)
+      return;
+    if (decision == PlayerDecision::Hit)
+    {
+      this->takeCard(dealer.giveCard(cardShoe, Visible::Open));
+    }
   }
 }
