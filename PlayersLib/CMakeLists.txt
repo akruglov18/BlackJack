@@ -5,6 +5,6 @@ add_library(PlayersLib Player.cpp Dealer.cpp IPlayer.cpp HumanPlayer.cpp EventHa
 
 target_include_directories(PlayersLib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../gtest ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(PlayersLib HandLib CardShoeLib)
+target_link_libraries(PlayersLib HandLib CardShoeLib BetLib)
 
 add_subdirectory(test)

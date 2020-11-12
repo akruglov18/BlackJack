@@ -1,4 +1,5 @@
 #include "Dealer.h"
+#include "EventHandler.h"
 
 Dealer::Dealer(const Dealer& dealer)
 {
@@ -46,6 +47,7 @@ void Dealer::dealCards(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 void Dealer::openSecondCard()
 {
   this->hand.openCard(1);
+  EventHandler::playerTookCard(this->hand);
 }
 
 void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
@@ -93,7 +95,7 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 
 void Dealer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
 {
-  while (this->getHand().getValue() <= 17)
+  while (this->getHand().getValue() < 17)
   {
     this->takeCard(this->giveCard(cardShoe, Visible::Open));
   }

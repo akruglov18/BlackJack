@@ -11,6 +11,7 @@ add_executable(BlackJack main.cpp)
 
 add_subdirectory(gtest)
 add_subdirectory(CardLib)
+add_subdirectory(BetLib)
 add_subdirectory(CardShoeLib)
 add_subdirectory(HandLib)
 add_subdirectory(PlayersLib)

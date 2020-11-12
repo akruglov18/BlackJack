@@ -1,5 +1,7 @@
 #pragma once
 
+#include<Hand.h>
+
 enum PlayerDecision {
   Hit = 0, Stand, Split
 };
@@ -7,5 +9,5 @@ enum PlayerDecision {
 class EventHandler {
 public:
   static PlayerDecision playerChoice();
-  static void playerTookCard( Hand& hand);
+  static void playerTookCard(Hand& hand);
 };
