@@ -15,6 +15,7 @@ public:
   void shuffleCardShoe(CardShoe& _CardShoe);
   void dealCards(CardShoe& _CardShoe, std::vector<IPlayer*> players);
   void openSecondCard();
+  int getFirstCard() const;
   void playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players);
   void makeTurn(CardShoe& cardShoe, Dealer& dealer) override;
 };

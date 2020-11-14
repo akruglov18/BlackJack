@@ -51,6 +51,11 @@ void Dealer::openSecondCard()
   EventHandler::updatePlayerState(*this);
 }
 
+int Dealer::getFirstCard() const
+{
+  return this->hand.getCardValue(0);
+}
+
 void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 {
   //start round
@@ -60,22 +65,22 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
     players[i]->getBet().makeBet(playerBet);
     EventHandler::updatePlayerState(*players[i]);
   }
-
   this->dealCards(_CardShoe, players);
 
   for (int i = 0; i < players.size(); i++) // all players turns
   {
+    if (this->getFirstCard() == CardsValues::Ace)
+    {
+      bool decision = EventHandler::offerInsurance();
+      if (decision)
+        players[i]->getBet().makeInsurance();
+    }
     players[i]->makeTurn(_CardShoe, *this);
   }
-  //show dealer hidden card
-  this->openSecondCard();
-
-  // dealers turn
+  //dealer shows hidden card and dealer makes turn
   this->makeTurn(_CardShoe, *this);
 
   // results of round
-  int DealerSum = this->getHand().getValue();
-  bool isDealerBusted = this->isBusted();
   for (int i = 0; i < players.size(); i++)
   {
     EventHandler::paymentStage(*this, players[i]);
@@ -86,6 +91,7 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 
 void Dealer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
 {
+  this->openSecondCard();
   while (this->getHand().getValue() < 17)
   {
     this->takeCard(this->giveCard(cardShoe, Visible::Open));

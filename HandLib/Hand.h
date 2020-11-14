@@ -13,10 +13,13 @@ public:
   int getValue() const;
   bool isOverflowed() const;
   void addCard(const Card& card);
-  void clear();
   void openCard(int number);
+  int getCardValue(int number) const;
   std::string toString() const;
+  bool hasBlackJack() const;
 
+  void clear();
+  int size() const;
   Hand& operator=(const Hand& hand);
 };
 

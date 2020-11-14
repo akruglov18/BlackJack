@@ -5,7 +5,7 @@
 
 enum Suits{ Spades = 0, Hearts, Clubs, Diamonds };
 
-enum Values { Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, 
+enum CardsValues { Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, 
   Ace};
 
 class Card {

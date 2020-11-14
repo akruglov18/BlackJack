@@ -48,6 +48,19 @@ PlayerDecision EventHandler::playerChoice()
   }
 }
 
+bool EventHandler::offerInsurance()
+{
+  std::cout << "Make insurance?"<<std::endl;
+  std::string decision;
+  do
+  {
+    std::getline(std::cin, decision);
+  } while (decision.empty());
+  if (decision == "yes")
+    return true;
+  return false;
+}
+
 void EventHandler::updatePlayerState(const IPlayer& player)
 {
   std::cout << "##############" << std::endl; //# - 14 times
@@ -73,11 +86,17 @@ void EventHandler::paymentStage(Dealer& dealer, IPlayer* player)
   if (isPlayerBusted)
     res = GameResult::Lose;                            // player Lose
   else if (isDealerBusted || PlayerSum > DealerSum)
-    res = GameResult::Win;                             //playerWin
+    res = GameResult::Win;                             //player Win
   else if (PlayerSum < DealerSum)
     res = GameResult::Lose;                            // player Lose
   else
     res = GameResult::Push;                            // push
+
+  if (player->getBet().wasInsurance())
+    if (dealer.getHand().hasBlackJack())
+      player->changeBank(player->getBet().getInsuranceValue() * 2);
+    else
+      player->changeBank(-player->getBet().getInsuranceValue());
 
   if (res == GameResult::Lose)
   {

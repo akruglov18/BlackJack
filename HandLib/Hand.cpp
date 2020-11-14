@@ -50,6 +50,11 @@ void Hand::openCard(int number)
     throw std::exception("Number of card out of hand size");
 }
 
+int Hand::getCardValue(int number) const
+{
+  return cards[number].getValue();
+}
+
 std::string Hand::toString() const
 {
   std::string res;
@@ -58,6 +63,18 @@ std::string Hand::toString() const
     res += (cards[i].toString() + " ");
   }
   return res;
+}
+
+bool Hand::hasBlackJack() const
+{
+  if (this->size() == 2 && this->getValue() == 21)
+    return true;
+  return false;
+}
+
+int Hand::size() const
+{
+  return this->cards.size();
 }
 
 Hand& Hand::operator=(const Hand& hand)
