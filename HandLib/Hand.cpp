@@ -50,9 +50,9 @@ void Hand::openCard(int number)
     throw std::exception("Number of card out of hand size");
 }
 
-int Hand::getCardValue(int number) const
+int Hand::getCardType(int number) const
 {
-  return cards[number].getValue();
+  return cards[number].getType();
 }
 
 std::string Hand::toString() const

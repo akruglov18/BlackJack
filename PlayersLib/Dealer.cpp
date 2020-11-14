@@ -53,7 +53,7 @@ void Dealer::openSecondCard()
 
 int Dealer::getFirstCard() const
 {
-  return this->hand.getCardValue(0);
+  return this->hand.getCardType(0);
 }
 
 void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)

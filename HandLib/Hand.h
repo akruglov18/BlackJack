@@ -14,7 +14,7 @@ public:
   bool isOverflowed() const;
   void addCard(const Card& card);
   void openCard(int number);
-  int getCardValue(int number) const;
+  int getCardType(int number) const;
   std::string toString() const;
   bool hasBlackJack() const;
 
