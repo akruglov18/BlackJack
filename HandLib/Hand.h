@@ -10,12 +10,12 @@ private:
 public:
   Hand();
   Hand(const Hand& hand);
-  int getValue();
-  bool isOverflowed();
+  int getValue() const;
+  bool isOverflowed() const;
   void addCard(const Card& card);
   void clear();
   void openCard(int number);
-  std::string toString();
+  std::string toString() const;
 
   Hand& operator=(const Hand& hand);
 };

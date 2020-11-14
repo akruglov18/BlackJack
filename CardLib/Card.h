@@ -18,13 +18,13 @@ public:
   Card(const Card& card);
 
   void open();
-  int getValue();
-  int getSuit();
-  int getType();
+  int getValue() const;
+  int getSuit() const;
+  int getType() const;
   
   Card& operator=(const Card& card);
 
-  std::string toString();
+  std::string toString() const;
 };
 
 #endif

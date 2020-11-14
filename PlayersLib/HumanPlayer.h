@@ -8,6 +8,8 @@
 
 class HumanPlayer : public IPlayer {
 public:
+  HumanPlayer(int _bank, std::string _name = "Player");
+  HumanPlayer(const HumanPlayer& player);
   void makeTurn(CardShoe& cardShoe, Dealer& dealer) override;
 
 };

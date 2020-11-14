@@ -1,21 +1,22 @@
 #include "Dealer.h"
 #include "EventHandler.h"
 
+Dealer::Dealer(std::string _name)
+{
+  this->name = _name;
+  this->bank = 0;
+}
+
 Dealer::Dealer(const Dealer& dealer)
 {
+  this->bank = dealer.bank;
   this->hand = dealer.hand;
+  this->name = dealer.name;
 }
 
 Card Dealer::giveCard(CardShoe& _CardShoe, bool toOpen)
 {
   return _CardShoe.getCard(toOpen);
-}
-
-void Dealer::clearPlayersHands(std::vector<IPlayer*> players)
-{
-  this->clearHand();
-  for (int i = 0; i < players.size(); i++)
-    players[i]->clearHand();
 }
 
 void Dealer::shuffleCardShoe(CardShoe& _CardShoe)
@@ -47,50 +48,40 @@ void Dealer::dealCards(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 void Dealer::openSecondCard()
 {
   this->hand.openCard(1);
-  EventHandler::playerTookCard(this->hand);
+  EventHandler::updatePlayerState(*this);
 }
 
 void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 {
   //start round
+  for (int i = 0; i < players.size(); i++)
+  {
+    int playerBet = EventHandler::getBet(*players[i]);
+    players[i]->getBet().makeBet(playerBet);
+    EventHandler::updatePlayerState(*players[i]);
+  }
+
   this->dealCards(_CardShoe, players);
 
-  for (int i = 0; i < players.size(); i++) // all players turn
+  for (int i = 0; i < players.size(); i++) // all players turns
   {
     players[i]->makeTurn(_CardShoe, *this);
   }
-
   //show dealer hidden card
   this->openSecondCard();
 
   // dealers turn
   this->makeTurn(_CardShoe, *this);
-  //waiting();
 
   // results of round
-  int DealerSum = this->getHandValue();
+  int DealerSum = this->getHand().getValue();
   bool isDealerBusted = this->isBusted();
-
   for (int i = 0; i < players.size(); i++)
   {
-    IPlayer* player = players[i];
-    int PlayerSum = player->getHandValue();
-    bool isPlayerBusted = player->isBusted();
-
-    GameResult res;
-    if (isPlayerBusted)
-      res = GameResult::Lose;
-    else if (isDealerBusted || PlayerSum > DealerSum)
-      res = GameResult::Win;
-    else if (PlayerSum < DealerSum)
-      res = GameResult::Lose;
-    else
-      res = GameResult::Push;
-
-    std::cout<<player[i].makeGameResult(res)<<std::endl;
+    EventHandler::paymentStage(*this, players[i]);
     //waiting();
   }
-  this->clearPlayersHands(players);
+  this->clearHand();
 }
 
 void Dealer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
@@ -101,10 +92,3 @@ void Dealer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
   }
 }
 
-Dealer& Dealer::operator=(const Dealer& dealer)
-{
-  if (this == &dealer)
-    return *this;
-  this->hand = dealer.hand;
-  return *this;
-}

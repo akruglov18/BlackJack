@@ -9,7 +9,7 @@ Hand::Hand(const Hand& hand)
   this->cards = hand.cards;
 }
 
-int Hand::getValue()
+int Hand::getValue() const
 {
   int res = 0;
   int aceCount = 0;
@@ -27,7 +27,7 @@ int Hand::getValue()
   return res;
 }
 
-bool Hand::isOverflowed()
+bool Hand::isOverflowed() const
 {
   return this->getValue() > 21;
 }
@@ -50,7 +50,7 @@ void Hand::openCard(int number)
     throw std::exception("Number of card out of hand size");
 }
 
-std::string Hand::toString()
+std::string Hand::toString() const
 {
   std::string res;
   for (int i = 0; i < cards.size(); i++)

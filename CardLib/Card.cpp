@@ -19,7 +19,7 @@ void Card::open()
   this->isHidden = false;
 }
 
-int Card::getValue()
+int Card::getValue() const
 {
   if (this->Value == Ace)
     return 11;
@@ -27,12 +27,12 @@ int Card::getValue()
 }
 
 
-int Card::getType()
+int Card::getType() const
 {
   return this->Value;
 }
 
-int Card::getSuit()
+int Card::getSuit() const
 {
   return this->Suit;
 }
@@ -47,7 +47,7 @@ Card& Card::operator=(const Card& card)
   return *this;
 }
 
-std::string Card::toString()
+std::string Card::toString() const
 {
   if (isHidden)
     return "**";

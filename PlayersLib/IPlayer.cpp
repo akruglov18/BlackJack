@@ -1,7 +1,7 @@
 #include"IPlayer.h"
 #include "EventHandler.h"
 
-bool IPlayer::isBusted()
+bool IPlayer::isBusted() const
 {
   return this->hand.isOverflowed();
 }
@@ -9,7 +9,7 @@ bool IPlayer::isBusted()
 void IPlayer::takeCard(const Card& card)
 {
   this->hand.addCard(card);
-  EventHandler::playerTookCard(this->hand);
+  EventHandler::updatePlayerState(*this);
 }
 
 void IPlayer::clearHand()
@@ -17,17 +17,37 @@ void IPlayer::clearHand()
   this->hand.clear();
 }
 
-int IPlayer::getHandValue()
-{
-  return this->hand.getValue();
-}
-
-Hand IPlayer::getHand()
+Hand IPlayer::getHand() const
 {
   return this->hand;
 }
 
-std::string IPlayer::makeGameResult(const GameResult& game_res)
+Bet& IPlayer::getBet()
+{
+  return this->bet;
+}
+
+const Bet& IPlayer::getBet() const
+{
+  return this->bet;
+}
+
+int IPlayer::getBank() const
+{
+  return this->bank;
+}
+
+std::string IPlayer::getName() const
+{
+  return this->name;
+}
+
+void IPlayer::changeBank(int added)
+{
+  this->bank += added;
+}
+
+std::string IPlayer::makeGameResult(const GameResult& game_res) const
 {
   switch (game_res)
   {
@@ -38,7 +58,7 @@ std::string IPlayer::makeGameResult(const GameResult& game_res)
   case Win:
     return "Victory";
   default:
-    throw new std::exception("Strange game result");
+    throw new std::exception("Unexpected Game Result");
   }
 }
 
