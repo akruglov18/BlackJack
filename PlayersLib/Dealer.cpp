@@ -1,9 +1,9 @@
 #include "Dealer.h"
 #include "EventHandler.h"
 
-Dealer::Dealer(std::string _name)
+Dealer::Dealer()
 {
-  this->name = _name;
+  this->name = "Dealer";
   this->bank = 0;
 }
 
@@ -69,13 +69,13 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
 
   for (int i = 0; i < players.size(); i++) // all players turns
   {
-    if (this->getFirstCard() == CardsValues::Ace)
-    {
-      bool decision = EventHandler::offerInsurance();
-      if (decision)
-        players[i]->getBet().makeInsurance();
-    }
     players[i]->makeTurn(_CardShoe, *this);
+  }
+
+  if (EventHandler::isAllPlayersMakeTurn(players))
+  {
+    this->clearHand();
+    return;
   }
   //dealer shows hidden card and dealer makes turn
   this->makeTurn(_CardShoe, *this);
@@ -97,4 +97,3 @@ void Dealer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
     this->takeCard(this->giveCard(cardShoe, Visible::Open));
   }
 }
-

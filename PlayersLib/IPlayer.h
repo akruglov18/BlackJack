@@ -9,7 +9,7 @@
 class Dealer;
 
 enum GameResult {
-  Push, Lose, Win
+  Push, Lose, Win, BlackJack
 };
 
 class IPlayer {

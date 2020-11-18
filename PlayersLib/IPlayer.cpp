@@ -51,6 +51,8 @@ std::string IPlayer::makeGameResult(const GameResult& game_res) const
 {
   switch (game_res)
   {
+  case BlackJack:
+    return "BlackJack";
   case Push:
     return "Draw";
   case Lose:

@@ -21,6 +21,8 @@ void Game::PlayGame()
 
   while (true)
   {
+    if (this->cardShoe.isNeededRebuild())
+      this->cardShoe.rebuild();
     dealer.playRound(cardShoe, players);
   }
 }

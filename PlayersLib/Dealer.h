@@ -9,7 +9,7 @@
 
 class Dealer : public IPlayer {
 public:
-  Dealer(std::string _name = "Dealer");
+  Dealer();
   Dealer(const Dealer& dealer);
   Card giveCard(CardShoe& _CardShoe, bool toOpen);
   void shuffleCardShoe(CardShoe& _CardShoe);

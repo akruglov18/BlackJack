@@ -7,21 +7,23 @@ CardShoe::CardShoe(int _deckCount)
   this->deckCount = _deckCount;
   for (int i = 0; i < deckCount; i++)
   {
-    for (int suit = Spades; suit <= Diamonds; suit++) // 4 suit
+    for (int suit = Suits::Spades; suit <= Suits::Diamonds; suit++) // 4 suit
     {
-      for (int value = Two; value <= Ace; value++)
+      for (int value = CardsValues::Two; value <= CardsValues::Ace; value++)
       {
         Card card(value, suit);
         this->shoe.push_back(card);
       }
     }
   }
+  this->minCount = deckCount * 52 / 3;
 }
 
 CardShoe::CardShoe(const CardShoe& _CardShoe)
 {
   this->deckCount = _CardShoe.deckCount;
   this->shoe = _CardShoe.shoe;
+  this->minCount = _CardShoe.minCount;
 }
 
 void CardShoe::randomShuffle()
@@ -33,6 +35,14 @@ void CardShoe::rebuild()
 {
   CardShoe newDeck(this->deckCount);
   *this = newDeck;
+  this->randomShuffle();
+}
+
+bool CardShoe::isNeededRebuild()
+{
+  if (this->shoe.size() < minCount)
+    return true;
+  return false;
 }
 
 int CardShoe::getSize()
