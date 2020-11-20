@@ -6,6 +6,6 @@ using namespace std;
 
 int main(){
   Game table(4);
-  table.addPlayer(new HumanPlayer(500, "AAAAA"));
+  table.addPlayer(new HumanPlayer(500, "Player"));
   table.PlayGame();
 }

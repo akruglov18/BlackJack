@@ -8,16 +8,20 @@
 #include <string>
 
 class Dealer : public IPlayer {
+private:
+  CardShoe* _CardShoe;
 public:
   Dealer();
   Dealer(const Dealer& dealer);
-  Card giveCard(CardShoe& _CardShoe, bool toOpen);
-  void shuffleCardShoe(CardShoe& _CardShoe);
-  void dealCards(CardShoe& _CardShoe, std::vector<IPlayer*> players);
+  Card giveCard(bool toOpen);
+  void shuffleCardShoe();
+  void setCardShoe(CardShoe& cardShoe);
+  void dealCards(std::vector<IPlayer*> players);
   void openSecondCard();
   int getFirstCard() const;
   void playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players);
-  void makeTurn(CardShoe& cardShoe, Dealer& dealer) override;
+  void makeTurn(Dealer& dealer) override;
+  void makeBet() override;
 };
 
 #endif

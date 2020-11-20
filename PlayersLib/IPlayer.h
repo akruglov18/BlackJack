@@ -28,8 +28,9 @@ public:
   int getBank() const;
   std::string getName() const;
   void changeBank(int added);
+  virtual void makeBet() = 0;
   virtual std::string makeGameResult(const GameResult& game_res) const;
-  virtual void makeTurn(CardShoe& cardShoe, Dealer& dealer) = 0;
+  virtual void makeTurn(Dealer& dealer) = 0;
 };
 
 #endif

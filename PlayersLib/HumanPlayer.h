@@ -10,7 +10,8 @@ class HumanPlayer : public IPlayer {
 public:
   HumanPlayer(int _bank, std::string _name = "Player");
   HumanPlayer(const HumanPlayer& player);
-  void makeTurn(CardShoe& cardShoe, Dealer& dealer) override;
+  void makeTurn(Dealer& dealer) override;
+  void makeBet()override;
 
 };
 #endif // ! HUMAN_PLAYER_H

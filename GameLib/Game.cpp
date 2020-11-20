@@ -17,12 +17,13 @@ CardShoe& Game::getCardShoe()
 
 void Game::PlayGame()
 {
-  dealer.shuffleCardShoe(cardShoe);
-
+  srand(time(0));
+  dealer.setCardShoe(this->cardShoe);
+  dealer.shuffleCardShoe();
   while (true)
   {
-    if (this->cardShoe.isNeededRebuild())
-      this->cardShoe.rebuild();
+    if (cardShoe.isNeededRebuild())
+      cardShoe.rebuild();
     dealer.playRound(cardShoe, players);
   }
 }

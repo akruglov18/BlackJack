@@ -14,23 +14,27 @@ Dealer::Dealer(const Dealer& dealer)
   this->name = dealer.name;
 }
 
-Card Dealer::giveCard(CardShoe& _CardShoe, bool toOpen)
+Card Dealer::giveCard(bool toOpen)
 {
-  return _CardShoe.getCard(toOpen);
+  return _CardShoe->getCard(toOpen);
 }
 
-void Dealer::shuffleCardShoe(CardShoe& _CardShoe)
+void Dealer::shuffleCardShoe()
 {
-  srand(time(0));
-  _CardShoe.randomShuffle();
+  _CardShoe->randomShuffle();
 }
 
-void Dealer::dealCards(CardShoe& _CardShoe, std::vector<IPlayer*> players)
+void Dealer::setCardShoe(CardShoe& cardShoe)
+{
+  _CardShoe = &cardShoe;
+}
+
+void Dealer::dealCards(std::vector<IPlayer*> players)
 {
   //cards to player
   for (int i = 0; i < 2; i++)
     for (int i = 0; i < players.size(); i++)
-      players[i]->takeCard(this->giveCard(_CardShoe, Visible::Open));
+      players[i]->takeCard(this->giveCard(Visible::Open));
 
   bool FirstDealerCard = true;
   for (int i = 0; i < 2; i++)
@@ -38,10 +42,10 @@ void Dealer::dealCards(CardShoe& _CardShoe, std::vector<IPlayer*> players)
     if (FirstDealerCard)
     {
       FirstDealerCard = false;
-      this->takeCard(this->giveCard(_CardShoe, Visible::Open));
+      this->takeCard(this->giveCard( Visible::Open));
     }
     else
-      this->takeCard(this->giveCard(_CardShoe, Visible::Hide));
+      this->takeCard(this->giveCard(Visible::Hide));
   }
 }
 
@@ -61,15 +65,13 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
   //start round
   for (int i = 0; i < players.size(); i++)
   {
-    int playerBet = EventHandler::getBet(*players[i]);
-    players[i]->getBet().makeBet(playerBet);
-    EventHandler::updatePlayerState(*players[i]);
+    players[i]->makeBet();
   }
-  this->dealCards(_CardShoe, players);
+  this->dealCards(players);
 
   for (int i = 0; i < players.size(); i++) // all players turns
   {
-    players[i]->makeTurn(_CardShoe, *this);
+    players[i]->makeTurn(*this);
   }
 
   if (EventHandler::isAllPlayersMakeTurn(players))
@@ -78,7 +80,7 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
     return;
   }
   //dealer shows hidden card and dealer makes turn
-  this->makeTurn(_CardShoe, *this);
+  this->makeTurn(*this);
 
   // results of round
   for (int i = 0; i < players.size(); i++)
@@ -89,11 +91,16 @@ void Dealer::playRound(CardShoe& _CardShoe, std::vector<IPlayer*> players)
   this->clearHand();
 }
 
-void Dealer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
+void Dealer::makeTurn(Dealer& dealer)
 {
   this->openSecondCard();
   while (this->getHand().getValue() < 17)
   {
-    this->takeCard(this->giveCard(cardShoe, Visible::Open));
+    this->takeCard(this->giveCard(Visible::Open));
   }
+}
+
+void Dealer::makeBet()
+{
+  this->getBet().makeBet(0);
 }

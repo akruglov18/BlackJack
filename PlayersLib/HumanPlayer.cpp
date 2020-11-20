@@ -14,7 +14,7 @@ HumanPlayer::HumanPlayer(const HumanPlayer& _player)
   this->name = _player.name;
 }
 
-void HumanPlayer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
+void HumanPlayer::makeTurn(Dealer& dealer)
 {
   if (this->getHand().hasBlackJack())
   {
@@ -64,17 +64,24 @@ void HumanPlayer::makeTurn(CardShoe& cardShoe, Dealer& dealer)
     }
     if (decision == PlayerDecision::Hit)
     {
-      this->takeCard(dealer.giveCard(cardShoe, Visible::Open));
+      this->takeCard(dealer.giveCard(Visible::Open));
     }
     if (decision == PlayerDecision::Double)
     {
       if (this->getBank() >= this->getBet().getValue()*2)
       {
         this->getBet().doubleBet();
-        this->takeCard(dealer.giveCard(cardShoe, Visible::Open));
+        this->takeCard(dealer.giveCard(Visible::Open));
         return;
       }
       std::cout << "Lack of money"<<std::endl;
     }
   }
+}
+
+void HumanPlayer::makeBet()
+{
+  int playerBet = EventHandler::getBet(*this);
+  this->getBet().makeBet(playerBet);
+  EventHandler::updatePlayerState(*this);
 }
