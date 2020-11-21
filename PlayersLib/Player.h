@@ -5,9 +5,10 @@
 
 class Player : public IPlayer {
 public:
-  Player();
+  Player(int bank, std::string name);
   Player(const Player& player);
-
+  void makeBet() override;
+  void makeTurn(Dealer& dealer) override;
 };
 
 #endif

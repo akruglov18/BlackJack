@@ -3,15 +3,16 @@
 
 Dealer::Dealer()
 {
-  this->name = "Dealer";
-  this->bank = 0;
+  name = "Dealer";
+  bank = 0;
 }
 
 Dealer::Dealer(const Dealer& dealer)
 {
-  this->bank = dealer.bank;
-  this->hand = dealer.hand;
-  this->name = dealer.name;
+  bank = dealer.bank;
+  hand = dealer.hand;
+  name = dealer.name;
+  *(_CardShoe) = *(dealer._CardShoe);
 }
 
 Card Dealer::giveCard(bool toOpen)

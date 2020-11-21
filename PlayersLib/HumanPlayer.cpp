@@ -16,6 +16,7 @@ HumanPlayer::HumanPlayer(const HumanPlayer& _player)
 
 void HumanPlayer::makeTurn(Dealer& dealer)
 {
+  EventHandler::updatePlayerState(*this);
   if (this->getHand().hasBlackJack())
   {
     bool isPlayed = false;
@@ -48,24 +49,22 @@ void HumanPlayer::makeTurn(Dealer& dealer)
     if (decision)
       this->getBet().makeInsurance();
   }
-  while(!this->isBusted() && this->getHand().getValue() != 21)
+  while(!this->isBusted() && !this->getHand().hasBlackJack())
   {
     PlayerDecision decision = EventHandler::playerChoice();
 
     if (decision == PlayerDecision::Double && this->getHand().size() > 2)
     {
-      std::cout << "You can't double when your count of cards is bigger than 2" << std::endl;
+      std::cout << "You can only double whit first turn" << std::endl;
       continue;
     }
 
     if (decision == PlayerDecision::Stand)
-    {
       return;
-    }
+
     if (decision == PlayerDecision::Hit)
-    {
       this->takeCard(dealer.giveCard(Visible::Open));
-    }
+
     if (decision == PlayerDecision::Double)
     {
       if (this->getBank() >= this->getBet().getValue()*2)
