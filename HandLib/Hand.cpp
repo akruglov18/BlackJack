@@ -15,9 +15,12 @@ int Hand::getValue() const
   int aceCount = 0;
   for (int i = 0; i < cards.size(); i++) // all aces cost 11
   {
-    res += cards[i].getValue();
-    if (cards[i].getType() == Ace)
-      aceCount++;
+    if (cards[i].isOpen()) 
+    {
+      res += cards[i].getValue();
+      if (cards[i].getType() == Ace)
+        aceCount++;
+    }
   }
   for (int i = 0; i < aceCount; i++) // aces may have the value 1 or 11
     if (res > 21)

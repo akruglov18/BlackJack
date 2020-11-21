@@ -18,6 +18,7 @@ public:
   Card(const Card& card);
 
   void open();
+  bool isOpen() const;
   int getValue() const;
   int getSuit() const;
   int getType() const;

@@ -80,7 +80,7 @@ void EventHandler::updatePlayerState(const IPlayer& player)
     std::cout << "Money: " << player.getBank() << std::endl;
     std::cout << "Current bet: " << player.getBet().getValue() << std::endl;
   }
-  std::cout << player.getHand().toString()<<std::endl;
+  std::cout << player.getHand().toString()<<"("<<player.getHand().getValue()<<")"<<std::endl;
   std::cout << std::endl;
   std::cout << "##############" << std::endl; //# - 14 times
 }

@@ -19,6 +19,11 @@ void Card::open()
   this->isHidden = false;
 }
 
+bool Card::isOpen() const
+{
+  return isHidden==false;
+}
+
 int Card::getValue() const
 {
   if (this->Value == Ace)
